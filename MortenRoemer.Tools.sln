@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MortenRoemer.Tools.Framework", "MortenRoemer.Tools.Framework\MortenRoemer.Tools.Framework.csproj", "{EE9C5AFA-F481-4546-81EC-360A39B04F6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MortenRoemer.Tools.Framework.Testing", "MortenRoemer.Tools.Framework.Testing\MortenRoemer.Tools.Framework.Testing.csproj", "{0A250517-E8C8-4097-9905-391840B805E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{EE9C5AFA-F481-4546-81EC-360A39B04F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE9C5AFA-F481-4546-81EC-360A39B04F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE9C5AFA-F481-4546-81EC-360A39B04F6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A250517-E8C8-4097-9905-391840B805E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A250517-E8C8-4097-9905-391840B805E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A250517-E8C8-4097-9905-391840B805E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A250517-E8C8-4097-9905-391840B805E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

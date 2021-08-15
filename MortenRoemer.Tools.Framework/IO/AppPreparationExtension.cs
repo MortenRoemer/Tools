@@ -2,7 +2,8 @@ namespace MortenRoemer.Tools.Framework.IO
 {
     public static class AppPreparationExtension
     {
-        public static AppPreparation WithLocalFileSystem(this AppPreparation preparation) 
+        public static AppPreparation<TApp> WithLocalFileSystem<TApp>(this AppPreparation<TApp> preparation)
+            where TApp : class, IApplication, new() 
             => preparation.WithCustomService<IFileRepository>(LocalFileRepository.Singleton);
     }
 }

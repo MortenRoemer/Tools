@@ -18,5 +18,9 @@ namespace MortenRoemer.Tools.Framework
         public TimeSpan ExecutionTime => EndTime - StartTime;
         
         public Exception? ThrownException { get; }
+
+        public bool IsSuccess => ThrownException is null;
+        
+        public bool IsFailure => ThrownException is not null;
     }
 }
