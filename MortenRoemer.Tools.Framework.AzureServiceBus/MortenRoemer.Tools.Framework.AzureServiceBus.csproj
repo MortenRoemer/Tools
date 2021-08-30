@@ -7,7 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="Cloud\IEventBroker.cs" />
+      <ProjectReference Include="..\MortenRoemer.Tools.Framework\MortenRoemer.Tools.Framework.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.2.1" />
     </ItemGroup>
 
 </Project>

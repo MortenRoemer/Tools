@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MortenRoemer.Tools.Framewor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MortenRoemer.Tools.Framework.Testing", "MortenRoemer.Tools.Framework.Testing\MortenRoemer.Tools.Framework.Testing.csproj", "{0A250517-E8C8-4097-9905-391840B805E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MortenRoemer.Tools.Framework.AzureServiceBus", "MortenRoemer.Tools.Framework.AzureServiceBus\MortenRoemer.Tools.Framework.AzureServiceBus.csproj", "{53F9FF6F-5AC8-416E-8ADF-A3691C3F1C01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{0A250517-E8C8-4097-9905-391840B805E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A250517-E8C8-4097-9905-391840B805E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A250517-E8C8-4097-9905-391840B805E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53F9FF6F-5AC8-416E-8ADF-A3691C3F1C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53F9FF6F-5AC8-416E-8ADF-A3691C3F1C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53F9FF6F-5AC8-416E-8ADF-A3691C3F1C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53F9FF6F-5AC8-416E-8ADF-A3691C3F1C01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
