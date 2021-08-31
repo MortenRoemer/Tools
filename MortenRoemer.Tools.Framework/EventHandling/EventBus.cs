@@ -1,36 +1,64 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MortenRoemer.Tools.Framework.EventHandling
 {
-    public class EventBus
+    public static class EventBus
     {
-        public EventBus()
+        private static IServiceProvider? ServiceProvider { get; set; }
+        
+        private static bool IsSetUp { get; set; }
+
+        private static Dictionary<Type, List<IEventHandler>> RegisteredHandlers { get; } = new();
+
+        public static EventBusPreparation Setup()
         {
+            return new EventBusPreparation();
         }
 
-        public void AddHandler<THandler, TEvent>(ActiveEventHandler<THandler, TEvent> activeHandler)
-            where THandler : class, IEventHandler<TEvent>, new()
+        public static void Register(IEventHandler eventHandler)
         {
-            if (Handlers.TryGetValue(typeof(TEvent), out var handlers))
-            {
-                handlers.Add(activeHandler);
-            }
+            if (RegisteredHandlers.TryGetValue(eventHandler.MessageType, out var handlers))
+                handlers.Add(eventHandler);
             else
-                Handlers.Add(typeof(TEvent), new List<object> {activeHandler});
+                RegisteredHandlers.Add(eventHandler.MessageType, new List<IEventHandler> { eventHandler });
         }
 
-        public HandleResult<THandler, TEvent> HandleEvent<THandler, TEvent>(TEvent tEvent)
-            where THandler : class, IEventHandler<TEvent>, new()
+        public static async Task<HandleResult> Handle(object eventData, CancellationToken token = default)
         {
-            if(Handlers.TryGetValue(tEvent.GetType(), out var handlers))
+            if (!IsSetUp)
+                throw new InvalidOperationException("EventBus is not set up");
+            
+            var startTime = DateTime.Now;
+
+            if (!RegisteredHandlers.TryGetValue(eventData.GetType(), out var handlers))
+                return new HandleResult(Array.Empty<IEventHandler>(), startTime, DateTime.Now);
+            
+            foreach (var handler in handlers)
             {
-                
+                try
+                {
+                    await handler.Execute(ServiceProvider!, eventData, token);
+                }
+                catch (Exception exception)
+                {
+                    return new HandleResult(handlers, startTime, DateTime.Now,
+                        new EventHandlingException(exception, handler));
+                }
             }
             
+            return new HandleResult(handlers, startTime, DateTime.Now);
         }
 
-        private Dictionary<Type, List<object>> Handlers { get; } = new();
+        internal static void FinishSetup(IServiceProvider serviceProvider)
+        {
+            if (IsSetUp)
+                throw new InvalidOperationException("EventBus is already set up");
+            
+            ServiceProvider = serviceProvider;
+            IsSetUp = true;
+        }
     }
 }

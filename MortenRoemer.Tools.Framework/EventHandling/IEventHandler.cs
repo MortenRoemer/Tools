@@ -1,10 +1,13 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MortenRoemer.Tools.Framework.EventHandling
 {
-    public interface IEventHandler<in T>
+    public interface IEventHandler
     {
-        Task Execute(IServiceProvider services,T message, CancellationToken token = default);
+        Type MessageType { get; }
+        
+        Task Execute(IServiceProvider services, object message, CancellationToken token = default);
     }
 }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace MortenRoemer.Tools.Framework
 {
-    public class AppPreparation<TApp>
+    public class AppPreparation<TApp> : IFluentServiceAggregation<AppPreparation<TApp>>
         where TApp : class, IApplication, new()
     {
         public static AppPreparation<TApp> Start() => new();

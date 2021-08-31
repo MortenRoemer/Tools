@@ -1,17 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MortenRoemer.Tools.Framework.EventHandling
 {
-    public struct HandleResult<THandler, TEvent>
-        where THandler : class, IEventHandler<TEvent>, new()
+    public readonly struct HandleResult
     {
-        public Exception ThrownException { get; set; }
+        public HandleResult(IReadOnlyList<IEventHandler> handlers, DateTime startTime, DateTime endTime)
+        {
+            ThrownException = null;
+            Handlers = handlers;
+            StartTime = startTime;
+            EndTime = endTime;
+        }
+        
+        public HandleResult(IReadOnlyList<IEventHandler> handlers, DateTime startTime, DateTime endTime, EventHandlingException exception)
+        {
+            ThrownException = exception;
+            Handlers = handlers;
+            StartTime = startTime;
+            EndTime = endTime;
+        }
+        
+        public EventHandlingException? ThrownException { get; }
+        
+        public IReadOnlyList<IEventHandler> Handlers { get; }
 
-        public ActiveEventHandler<THandler, TEvent> ThrowingHandler { get; set; }
+        public DateTime StartTime { get; }
 
-        public DateTime StartingTime { get; set; }
-        public DateTime EndingTime { get; set; }
+        public DateTime EndTime { get; }
 
-        public TimeSpan Duration => EndingTime - StartingTime;
+        public TimeSpan Duration => EndTime - StartTime;
     }
 }
