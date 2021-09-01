@@ -5,35 +5,27 @@ using System.Threading.Tasks;
 
 namespace MortenRoemer.Tools.Framework.EventHandling
 {
-    public static class EventBus
+    public class EventBus
     {
-        private static IServiceProvider? ServiceProvider { get; set; }
+        private IServiceProvider? ServiceProvider { get; set; }
         
-        private static bool IsSetUp { get; set; }
+        private bool IsSetUp { get; set; }
 
-        private static Dictionary<Type, List<IEventHandler>> RegisteredHandlers { get; } = new();
+        private Dictionary<Type, List<IEventHandler>>? RegisteredHandlers { get; set; }
 
-        public static EventBusPreparation Setup()
+        public EventBusPreparation Setup()
         {
-            return new EventBusPreparation();
+            return new EventBusPreparation(this);
         }
 
-        public static void Register(IEventHandler eventHandler)
-        {
-            if (RegisteredHandlers.TryGetValue(eventHandler.MessageType, out var handlers))
-                handlers.Add(eventHandler);
-            else
-                RegisteredHandlers.Add(eventHandler.MessageType, new List<IEventHandler> { eventHandler });
-        }
-
-        public static async Task<HandleResult> Handle(object eventData, CancellationToken token = default)
+        public async Task<HandleResult> Handle(object eventData, CancellationToken token = default)
         {
             if (!IsSetUp)
                 throw new InvalidOperationException("EventBus is not set up");
             
             var startTime = DateTime.Now;
 
-            if (!RegisteredHandlers.TryGetValue(eventData.GetType(), out var handlers))
+            if (!RegisteredHandlers!.TryGetValue(eventData.GetType(), out var handlers))
                 return new HandleResult(Array.Empty<IEventHandler>(), startTime, DateTime.Now);
             
             foreach (var handler in handlers)
@@ -52,12 +44,13 @@ namespace MortenRoemer.Tools.Framework.EventHandling
             return new HandleResult(handlers, startTime, DateTime.Now);
         }
 
-        internal static void FinishSetup(IServiceProvider serviceProvider)
+        internal void FinishSetup(IServiceProvider serviceProvider, Dictionary<Type, List<IEventHandler>> handlers)
         {
             if (IsSetUp)
                 throw new InvalidOperationException("EventBus is already set up");
             
             ServiceProvider = serviceProvider;
+            RegisteredHandlers = handlers;
             IsSetUp = true;
         }
     }
